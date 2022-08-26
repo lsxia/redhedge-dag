@@ -5,7 +5,7 @@ from airflow.operators.http_operator import SimpleHttpOperator
 with DAG(
     dag_id='pnl_dag',
     description='PNL DAG',
-    schedule_interval='*/20 * * * * *',
+    schedule_interval='*/1 * * * *',
     start_date=datetime(2019, 1, 1),
     catchup=False,
 ) as dag:
