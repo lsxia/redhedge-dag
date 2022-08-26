@@ -2,7 +2,6 @@ from airflow import DAG
 from datetime import datetime
 from airflow.operators.http_operator import SimpleHttpOperator
 
-open_faas_endpoint = 'http://gateway.openfaas:8080/function/'
 endpoints = {
     "gross_reduction": "gross-reduction",
 }
@@ -15,7 +14,7 @@ with DAG(
 ) as dag:
     gross_reduction = SimpleHttpOperator(
         task_id='gross_reduction',
-        http_conn_id='http_default',
-        endpoint=open_faas_endpoint + endpoints['gross_reduction'],
+        http_conn_id='open_faas',
+        endpoint='gross-reduction',
         method='GET',
     )
