@@ -39,4 +39,5 @@ with DAG(
         endpoint='delta-pnl',
         method='GET',
     )
-    spread_pnl >> cash_pnl >> [gross_reduction, per_book_cash_pnl] >> delta_pnl
+    spread_pnl >> cash_pnl >> per_book_cash_pnl >> delta_pnl
+    cash_pnl >> gross_reduction
