@@ -1,4 +1,4 @@
-rom airflow import DAG
+from airflow import DAG
 from datetime import datetime
 from airflow.operators.faas_operator import FaasOperator
 
