@@ -2,7 +2,6 @@ from airflow import DAG
 from datetime import datetime
 from time import sleep
 import json
-from airflow.operators.python import PythonOperator
 
 from airflow.operators.python_operator import PythonOperator
 from airflow.operators.http_operator import SimpleHttpOperator
@@ -24,7 +23,7 @@ with DAG('pnl_heartbeat', schedule_interval='*/1 * * * *', start_date=datetime(2
         },
         response_check=lambda response: True if response.status_code == 200 else False,
     )
-    delay_python_task: PythonOperator = PythonOperator(task_id="delay_python_task",
+    delay_python_task: PythonOperator = PythonOperator(task_id="trigger_dag",
                                                    dag=t1,
                                                    python_callable=lambda: sleep(20))
 
