@@ -48,4 +48,5 @@ with DAG('pnl_heartbeat', schedule_interval='*/1 * * * *', start_date=datetime(2
     def trigger(frequency):
         t1
         sleep(60/frequency)
+    trigger(cpm)
         
