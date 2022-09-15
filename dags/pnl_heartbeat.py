@@ -3,7 +3,7 @@ from datetime import datetime
 from time import sleep
 import json
 # calls per minute 
-cpm = 6
+cpm = 3
 # import requests
 # import json
 
