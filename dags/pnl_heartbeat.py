@@ -1,6 +1,7 @@
 from airflow import DAG
 from datetime import datetime
 from time import sleep
+import json
 # calls per minute 
 cpm = 6
 # import requests
@@ -33,11 +34,9 @@ with DAG('pnl_heartbeat', schedule_interval='*/1 * * * *', start_date=datetime(2
         http_conn_id='airflow_api',
         endpoint='/api/v1/dags/pnl_dag/dagRuns',
         method='POST',
-        data={
-            {
-                "conf": { }
-            }
-        },
+        data=json.dumps({
+            "conf": {}
+        }),
         headers={
             "Content-Type": "application/json",
             "Authorization": "Basic YWRtaW46YWRtaW4="
