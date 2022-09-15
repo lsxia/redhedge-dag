@@ -26,7 +26,7 @@ from airflow.operators.python_operator import PythonOperator
 from airflow.operators.http_operator import SimpleHttpOperator
 
 
-with DAG('pnl_heartbeat', schedule_interval='*/10 * * * *', start_date=datetime(2021, 1, 1), catchup=False) as dag:
+with DAG('pnl_heartbeat', schedule_interval='*/1 * * * *', start_date=datetime(2021, 1, 1), catchup=False) as dag:
 
     t1 = SimpleHttpOperator(
         task_id='trigger_dag',
@@ -34,7 +34,9 @@ with DAG('pnl_heartbeat', schedule_interval='*/10 * * * *', start_date=datetime(
         endpoint='/api/v1/dags/pnl_dag/dagRuns',
         method='POST',
         data={
-            "conf": {}
+            {
+                "conf": { }
+            }
         },
         headers={
             "Content-Type": "application/json",
