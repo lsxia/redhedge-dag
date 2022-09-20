@@ -21,12 +21,6 @@ with DAG(
         endpoint='cash-pnl',
         method='GET',
     )
-    gross_reduction = SimpleHttpOperator(
-        task_id='gross_reduction',
-        http_conn_id='open_faas',
-        endpoint='gross-reduction',
-        method='GET',
-    )
     per_book_cash_pnl = SimpleHttpOperator(
         task_id='per_book_cash_pnl',
         http_conn_id='open_faas',
@@ -40,4 +34,3 @@ with DAG(
         method='GET',
     )
     spread_pnl >> cash_pnl >> per_book_cash_pnl >> delta_pnl
-    cash_pnl >> gross_reduction
