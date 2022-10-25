@@ -2,12 +2,13 @@ from datetime import datetime
 
 from airflow import DAG
 from airflow.operators.http_operator import SimpleHttpOperator
+from requests import JSONDecodeError
 
 
 def is_response_ok(response) -> bool:
     try:
         errors = response.json()["errors"]
-    except (AttributeError, KeyError) as exc:
+    except (JSONDecodeError, AttributeError, KeyError) as exc:
         ok = True
     else:
         ok = not any(errors)
