@@ -3,6 +3,18 @@ from datetime import datetime
 from airflow import DAG
 from airflow.operators.http_operator import SimpleHttpOperator
 
+
+def is_response_ok(response) -> bool:
+    try:
+        errors = response.json()["errors"]
+    except (AttributeError, KeyError) as exc:
+        ok = True
+    else:
+        ok = not any(errors)
+    finally:
+        return ok
+
+
 with DAG(
     dag_id="pnl_dag",
     description="PNL DAG",
@@ -15,23 +27,27 @@ with DAG(
         http_conn_id="open_faas",
         endpoint="spread-pnl",
         method="GET",
+        response_check=is_response_ok,
     )
     cash_pnl = SimpleHttpOperator(
         task_id="cash_pnl",
         http_conn_id="open_faas",
         endpoint="cash-pnl",
         method="GET",
+        response_check=is_response_ok,
     )
     per_book_cash_pnl = SimpleHttpOperator(
         task_id="per_book_cash_pnl",
         http_conn_id="open_faas",
         endpoint="per-book-cash-pnl",
         method="GET",
+        response_check=is_response_ok,
     )
     delta_pnl = SimpleHttpOperator(
         task_id="delta_pnl",
         http_conn_id="open_faas",
         endpoint="delta-pnl",
         method="GET",
+        response_check=is_response_ok,
     )
     spread_pnl >> cash_pnl >> per_book_cash_pnl >> delta_pnl
