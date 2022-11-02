@@ -2,6 +2,7 @@ from datetime import datetime
 
 from airflow import DAG
 from airflow.operators.http_operator import SimpleHttpOperator
+from requests import JSONDecodeError
 
 def is_response_ok(response) -> bool:
     try:

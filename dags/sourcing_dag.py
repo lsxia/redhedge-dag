@@ -2,6 +2,7 @@ from datetime import datetime
 
 from airflow import DAG
 from airflow.operators.http_operator import SimpleHttpOperator
+from requests import JSONDecodeError
 
 def is_response_ok(response) -> bool:
     try:
@@ -33,7 +34,6 @@ with DAG(
         endpoint="intraday-import",
         method="GET",
         response_check=is_response_ok,
-        
     )
     update_bond_static = SimpleHttpOperator(
         task_id="update_bond_static",
