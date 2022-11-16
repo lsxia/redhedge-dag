@@ -17,7 +17,7 @@ def is_response_ok(response) -> bool:
 with DAG(
     dag_id="update_blotters",
     description="Updates the start of day sourcing DAG with the latest data ( every 10 minutes)",
-    schedule_interval="*/10 8-17 * * *",
+    schedule_interval="*/1 8-17 * * *",
     start_date=datetime(2019, 1, 1),
     catchup=False,
 ) as dag:
