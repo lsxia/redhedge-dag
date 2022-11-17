@@ -17,11 +17,18 @@ def is_response_ok(response) -> bool:
 with DAG(
     dag_id="update_sourcing",
     description="Updates the start of day sourcing DAG with the latest data ( every hour)",
-    schedule_interval="0 8-17 * * *",
+    schedule_interval="* 8-17 * * *",
     start_date=datetime(2019, 1, 1),
     catchup=False,
 ) as dag:
 
+    compute_security_positions = SimpleHttpOperator(
+        task_id="compute_security_positions",
+        http_conn_id="open_faas",
+        endpoint="compute-security-positions",
+        method="GET",
+        response_check=is_response_ok,
+    )
     update_sourced_risk_data = SimpleHttpOperator(
         task_id="update_sourced_risk_data",
         http_conn_id="open_faas",
