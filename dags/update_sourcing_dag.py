@@ -22,6 +22,13 @@ with DAG(
     catchup=False,
 ) as dag:
 
+    compute_security_positions = SimpleHttpOperator(
+        task_id="compute_security_positions",
+        http_conn_id="open_faas",
+        endpoint="compute-security-positions",
+        method="GET",
+        response_check=is_response_ok,
+    )
     update_sourced_risk_data = SimpleHttpOperator(
         task_id="update_sourced_risk_data",
         http_conn_id="open_faas",
