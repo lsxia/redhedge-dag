@@ -21,7 +21,13 @@ with DAG(
     start_date=datetime(2019, 1, 1),
     catchup=False,
 ) as dag:
-
+    update_bond_static = SimpleHttpOperator(
+        task_id="update_bond_static",
+        http_conn_id="open_faas",
+        endpoint="update-bond-static",
+        method="GET",
+        response_check=is_response_ok,
+    )
     compute_security_positions = SimpleHttpOperator(
         task_id="compute_security_positions",
         http_conn_id="open_faas",
