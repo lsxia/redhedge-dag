@@ -51,4 +51,12 @@ with DAG(
         method="GET",
         response_check=is_response_ok,
     )
+    pnl_status_notification = SimpleHttpOperator(
+        task_id="pnl_status_notification",
+        http_conn_id="open_faas",
+        endpoint="pnl-status-notification",
+        method="GET",
+        response_check=is_response_ok,
+    )
     spread_pnl >> cash_pnl >> per_book_cash_pnl >> delta_pnl
+    pnl_status_notification
