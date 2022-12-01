@@ -72,3 +72,12 @@ with DAG(
         method="GET",
         response_check=is_response_ok,
     )
+    (
+        historical_data
+        >> historical_benchmarks
+        >> bucketing_time_series
+        >> merge_timeseries
+        >> daily_fields
+        >> scatter_plot_compute
+        >> summary
+    )
