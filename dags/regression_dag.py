@@ -77,7 +77,7 @@ with DAG(
         >> historical_benchmarks
         >> bucketing_time_series
         >> merge_timeseries
-        >> daily_fields
+        >> daily_data
         >> scatter_plot_compute
         >> summary
     )
