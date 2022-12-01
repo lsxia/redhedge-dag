@@ -51,10 +51,10 @@ with DAG(
         method="GET",
         response_check=is_response_ok,
     )
-    daily_fields = SimpleHttpOperator(
-        task_id="daily_fields",
+    daily_data = SimpleHttpOperator(
+        task_id="daily_data",
         http_conn_id="open_faas",
-        endpoint="regression-daily-fields",
+        endpoint="regression-daily-data",
         method="GET",
         response_check=is_response_ok,
     )
