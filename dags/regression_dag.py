@@ -37,6 +37,20 @@ with DAG(
         method="GET",
         response_check=is_response_ok,
     )
+    daily_data = SimpleHttpOperator(
+        task_id="daily_data",
+        http_conn_id="open_faas",
+        endpoint="regression-daily-data",
+        method="GET",
+        response_check=is_response_ok,
+    )
+    engineer_fields = SimpleHttpOperator(
+        task_id="engineer_fields",
+        http_conn_id="open_faas",
+        endpoint="regression-engineer-daily-fields",
+        method="GET",
+        response_check=is_response_ok,
+    )
     bucketing_time_series = SimpleHttpOperator(
         task_id="bucketing_time_series",
         http_conn_id="open_faas",
@@ -48,13 +62,6 @@ with DAG(
         task_id="merge_timeseries",
         http_conn_id="open_faas",
         endpoint="regression-merge-timeseries",
-        method="GET",
-        response_check=is_response_ok,
-    )
-    daily_data = SimpleHttpOperator(
-        task_id="daily_data",
-        http_conn_id="open_faas",
-        endpoint="regression-daily-data",
         method="GET",
         response_check=is_response_ok,
     )
@@ -75,9 +82,10 @@ with DAG(
     (
         historical_data
         >> historical_benchmarks
+        >> daily_data
+        >> engineer_fields
         >> bucketing_time_series
         >> merge_timeseries
-        >> daily_data
         >> scatter_plot_compute
         >> summary
     )
