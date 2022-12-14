@@ -37,6 +37,13 @@ with DAG(
         method="GET",
         response_check=is_response_ok,
     )
+    info_watched_items = SimpleHttpOperator(
+        task_id="info_watched_items",
+        http_conn_id="open_faas",
+        endpoint="regression-info-watched-items",
+        method="GET",
+        response_check=is_response_ok,
+    )
     historical_data = SimpleHttpOperator(
         task_id="historical_data",
         http_conn_id="open_faas",
@@ -82,6 +89,7 @@ with DAG(
     (
         daily_data
         >> engineer_fields
+        >> info_watched_items
         >> historical_data
         >> historical_benchmarks
         >> bucketing_time_series
