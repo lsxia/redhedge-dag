@@ -23,20 +23,6 @@ with DAG(
     start_date=datetime(2019, 1, 1),
     catchup=False,
 ) as dag:
-    historical_data = SimpleHttpOperator(
-        task_id="historical_data",
-        http_conn_id="open_faas",
-        endpoint="regression-historical-data",
-        method="GET",
-        response_check=is_response_ok,
-    )
-    historical_benchmarks = SimpleHttpOperator(
-        task_id="historical_benchmarks",
-        http_conn_id="open_faas",
-        endpoint="regression-historical-benchmarks",
-        method="GET",
-        response_check=is_response_ok,
-    )
     daily_data = SimpleHttpOperator(
         task_id="daily_data",
         http_conn_id="open_faas",
@@ -48,6 +34,27 @@ with DAG(
         task_id="engineer_fields",
         http_conn_id="open_faas",
         endpoint="regression-engineer-daily-fields",
+        method="GET",
+        response_check=is_response_ok,
+    )
+    info_watched_items = SimpleHttpOperator(
+        task_id="info_watched_items",
+        http_conn_id="open_faas",
+        endpoint="regression-info-watched-items",
+        method="GET",
+        response_check=is_response_ok,
+    )
+    historical_data = SimpleHttpOperator(
+        task_id="historical_data",
+        http_conn_id="open_faas",
+        endpoint="regression-historical-data",
+        method="GET",
+        response_check=is_response_ok,
+    )
+    historical_benchmarks = SimpleHttpOperator(
+        task_id="historical_benchmarks",
+        http_conn_id="open_faas",
+        endpoint="regression-historical-benchmarks",
         method="GET",
         response_check=is_response_ok,
     )
@@ -80,10 +87,11 @@ with DAG(
         response_check=is_response_ok,
     )
     (
-        historical_data
-        >> historical_benchmarks
-        >> daily_data
+        daily_data
         >> engineer_fields
+        >> info_watched_items
+        >> historical_data
+        >> historical_benchmarks
         >> bucketing_time_series
         >> merge_timeseries
         >> scatter_plot_compute
