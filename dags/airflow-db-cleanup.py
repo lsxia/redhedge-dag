@@ -96,13 +96,6 @@ DATABASE_OBJECTS = [
         "keep_last_group_by": None,
     },
     {
-        "airflow_db_model": XCom,
-        "age_check_column": XCom.execution_date,
-        "keep_last": False,
-        "keep_last_filters": None,
-        "keep_last_group_by": None,
-    },
-    {
         "airflow_db_model": SlaMiss,
         "age_check_column": SlaMiss.execution_date,
         "keep_last": False,
@@ -136,22 +129,6 @@ try:
 except Exception as e:
     logging.error(e)
 
-# Check for RenderedTaskInstanceFields model
-try:
-    from airflow.models import RenderedTaskInstanceFields
-
-    DATABASE_OBJECTS.append(
-        {
-            "airflow_db_model": RenderedTaskInstanceFields,
-            "age_check_column": RenderedTaskInstanceFields.execution_date,
-            "keep_last": False,
-            "keep_last_filters": None,
-            "keep_last_group_by": None,
-        }
-    )
-
-except Exception as e:
-    logging.error(e)
 
 # Check for ImportError model
 try:
