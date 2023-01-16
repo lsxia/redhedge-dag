@@ -96,13 +96,6 @@ DATABASE_OBJECTS = [
         "keep_last_group_by": None,
     },
     {
-        "airflow_db_model": XCom,
-        "age_check_column": XCom.execution_date,
-        "keep_last": False,
-        "keep_last_filters": None,
-        "keep_last_group_by": None,
-    },
-    {
         "airflow_db_model": SlaMiss,
         "age_check_column": SlaMiss.execution_date,
         "keep_last": False,
